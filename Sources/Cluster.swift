@@ -326,7 +326,7 @@ open class ClusterManager {
             tree.annotations(in: mapRect)
         }
         let hash = Dictionary(grouping: annotations) { $0.coordinate }
-        dispatchQueue.async(flags: .barrier) {
+        DispatchQueue.main.async(execute: {
             for value in hash.values where value.count > 1 {
                 for (index, annotation) in value.enumerated() {
                     tree.remove(annotation)
@@ -336,7 +336,7 @@ open class ClusterManager {
                     tree.add(annotation)
                 }
             }
-        }
+        })
     }
     
     func coordinate(annotations: [MKAnnotation], position: ClusterPosition, mapRect: MKMapRect) -> CLLocationCoordinate2D {
